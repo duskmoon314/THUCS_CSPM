@@ -1,0 +1,15 @@
+zig-cache/
+zig-out/
+
+__pycache__/
+.venv/
+.pdm-python
+
+.vscode/
+
+build/
+log/
+
+mpiP-3.5/
+ExaMiniMD/
+kokkos/

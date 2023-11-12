@@ -1,0 +1,8 @@
+[project]
+name = "CSPM"
+version = "0.1.0"
+description = ""
+authors = [{ name = "duskmoon", email = "kp.campbell.he@duskmoon314.com" }]
+dependencies = ["polars>=0.19.12", "matplotlib>=3.8.1"]
+requires-python = ">=3.10"
+readme = "README.md"
