@@ -2,6 +2,7 @@
 #include <stack>
 #include <string>
 #include <sys/ptrace.h>
+#include <sys/time.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <vector>
@@ -54,6 +55,7 @@ auto sampling(pid_t target, SymbolNode *tree) -> void {
       // printf("CSPM: child exit: %d\n", WEXITSTATUS(status));
       return;
     }
+    printf("CSPM: [ERROR] target is not exited either\n");
   }
 
   struct UPT_info *ui = (struct UPT_info *)_UPT_create(target);
@@ -155,6 +157,8 @@ auto main(int argc, char **argv) -> int {
   symbol_tree->name = "CSPM Symbol Tree";
   symbol_tree->count = 0;
 
+  struct timeval start, end;
+
   pid_t target;
   target = fork();
 
@@ -165,11 +169,13 @@ auto main(int argc, char **argv) -> int {
       args.push_back(&arg[0]);
     }
     args.push_back(nullptr);
-    execvpe(args[0], args.data(), nullptr);
+    execvp(args[0], args.data());
 
     return 0;
   } else {
     // parent process
+
+    gettimeofday(&start, NULL);
 
     // sleep for a while to wait for child to start
     usleep(100000);
@@ -184,8 +190,13 @@ auto main(int argc, char **argv) -> int {
       }
       if (WIFEXITED(status)) {
         // child process exited
+
+        gettimeofday(&end, NULL);
         printf("===== CSPM Profile =====\n");
         printf("CSPM: child exit: %d\n", WEXITSTATUS(status));
+        printf("CSPM: time elapsed: %ld us\n",
+               (end.tv_sec - start.tv_sec) * 1000000 +
+                   (end.tv_usec - start.tv_usec));
         if (symbol_tree->count == 0) {
           printf("CSPM: No symbol is profiled\n");
         } else {
