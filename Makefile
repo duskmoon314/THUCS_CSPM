@@ -16,8 +16,18 @@ profile: src/profile.cpp
 io: src/io.c
 	$(CC) -std=gnu11 -shared -fPIC -Wall -Wextra -pedantic -O3 -g src/io.c -o build/libcspmio.so
 
+pmu: src/pmu.c
+	$(CC) -std=gnu11 -shared -fPIC -Wall -Wextra -pedantic -O3 -g -Ipapi/src/install/include src/pmu.c -o build/libcspmpmu.so
+
+bp: src/bp/bp.cpp
+	make -C src/bp
+
 test: src/test.c
 	$(CC) $(CCFLAGS) $(INCLUDES) $(TEST_LINK) src/test.c -o build/test
+
+# Compile any file
+%: src/%.c
+	$(CC) $(CCFLAGS) $(INCLUDES) src/$@.c -o build/$@
 
 clean:
 	rm -rf build/*

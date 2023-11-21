@@ -33,7 +33,7 @@ void __attribute__((constructor)) load_cspm_io() {
   printf("====================\n");
   printf("CSPM: [INFO] Loading CSPM IO\n");
 
-  // Loading config from env "CAPM_IO" via getopt
+  // Loading config from env "CSPM_IO" via getopt
   // -o <output file>
   // -s <size unit> (B, KB, MB, GB)
   // -t <time unit> (s, ms, us, ns)

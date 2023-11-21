@@ -28,8 +28,6 @@ int baz() {
   return 0;
 }
 
-
-
 int main() {
   baz();
   return 0;
