@@ -59,7 +59,7 @@ void __attribute__((constructor)) load_cspm_pmu() {
                     // L1 miss
                     PAPI_L1_DCM, PAPI_LST_INS,
                     // L2 miss
-                    PAPI_L2_DCM, PAPI_L2_DCA,
+                    PAPI_L2_DCM, PAPI_L1_DCM,
                     // TLB miss
                     PAPI_TLB_DM, PAPI_LST_INS,
                     // Branch miss
@@ -159,7 +159,7 @@ void __attribute__((destructor)) unload_cspm_pmu() {
     // L2 miss mode
     printf("L2 miss: %f\n", (double)values[0] / (double)values[1]);
     printf("  L2_DCM: %lld\n", values[0]);
-    printf("  L2_DCA: %lld\n", values[1]);
+    printf("  L1_DCM: %lld\n", values[1]);
     break;
 
   case 't':
